@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Loan Approval — Logistic Regression</title>
+  <style>
+    /* Reset some defaults */
+    * {
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif; 
+      margin: 0; 
+      padding: 0;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    }
+
+    .card { 
+      max-width: 780px; 
+      margin: 50px auto; 
+      padding: 30px; 
+      background: #fff; 
+      border-radius: 16px; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #0d6efd;
+    }
+
+    .row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px; 
+    }
+
+    label { 
+      font-weight: 600; 
+      color: #333; 
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input, select { 
+      padding: 10px; 
+      width: 100%; 
+      border: 1px solid #ccc; 
+      border-radius: 8px; 
+      font-size: 0.95rem;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #0d6efd;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(13,110,253,0.2);
+    }
+
+    .btn { 
+      margin-top: 24px; 
+      padding: 12px 20px; 
+      background: #0d6efd; 
+      color: #fff; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 1rem;
+      font-weight: 600;
+      display: block;
+      width: 100%;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover { 
+      background: #0b5ed7;
+      transform: translateY(-2px);
+    }
+
+    .result { 
+      margin-top: 24px; 
+      font-size: 1.1rem; 
+      padding: 14px; 
+      background: #f0f6ff; 
+      border: 1px solid #bfd7ff; 
+      border-radius: 8px; 
+      color: #084298;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: inset 0 0 6px rgba(13,110,253,0.1);
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Loan Approval — Logistic Regression</h2>
+    <form method="post" action="/predict">
+      <div class="row">
+        <div>
+          <label>Age</label>
+          <input type="number" name="Age" step="1" min="18" required>
+        </div>
+        <div>
+          <label>Log10 Income (USD)</label>
+          <input type="number" name="Log10_Income_USD" step="0.001" required>
+        </div>
+        <div>
+          <label>Credit Score</label>
+          <input type="number" name="CreditScore" min="300" max="850" step="1" required>
+        </div>
+        <div>
+          <label>Existing Loans Count</label>
+          <input type="number" name="ExistingLoansCount" min="0" step="1" required>
+        </div>
+        <div>
+          <label>Log10 Loan Amount (INR)</label>
+          <input type="number" name="Log10_LoanAmount_INR" step="0.001" required>
+        </div>
+
+        <div>
+          <label>Employment Type</label>
+          <select name="EmploymentType">
+            {% for opt in employment_options %}
+              <option value="{{ opt }}">{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label>Marital Status</label>
+          <select name="MaritalStatus">
+            {% for opt in marital_options %}
+              <option value="{{ opt }}">{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label>City</label>
+          <select name="City">
+            {% for opt in city_options %}
+              <option value="{{ opt }}">{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <button class="btn" type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+      <div class="result">{{ result }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
