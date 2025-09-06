@@ -58,15 +58,11 @@
 <body>
     <h1>Cyberbullying Detection</h1>
     <form action="/predict" method="post">
-        <input type="text" name="tweet_text" placeholder="Enter tweet text..." required>
-        <br>
-        <input type="submit" value="Predict">
+        <label for="tweet_text">Enter Tweet:</label>
+        <input type="text" name="tweet_text" placeholder="Type a tweet here" required>
+        <button type="submit">Predict</button>
     </form>
     
-    {% if prediction %}
-        <div class="result">
-            Prediction: {{ prediction }}
-        </div>
-    {% endif %}
+    <h3>{{ prediction_text }}</h3>
 </body>
 </html>
